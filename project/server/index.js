@@ -5,6 +5,11 @@ import nodemailer from 'nodemailer';
 import fs from 'fs';
 import path from 'path';
 import dotenv from 'dotenv';
+import { fileURLToPath } from 'url';
+
+// Get current directory for ES modules
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 // Load environment variables
 dotenv.config();
@@ -17,6 +22,10 @@ app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
+// Serve static files from the React app build
+const distPath = path.join(__dirname, '../dist');
+app.use(express.static(distPath));
+
 // Create data directory if it doesn't exist
 const dataDir = path.join(process.cwd(), 'data');
 if (!fs.existsSync(dataDir)) {
@@ -26,7 +35,7 @@ if (!fs.existsSync(dataDir)) {
 // Email configuration
 let transporter = null;
 if (process.env.EMAIL_USER && process.env.EMAIL_PASS) {
-  transporter = nodemailer.createTransport({
+  transporter = nodemailer.createTransporter({
     service: 'gmail',
     auth: {
       user: process.env.EMAIL_USER,
@@ -494,10 +503,16 @@ app.get('/api/health', (req, res) => {
   });
 });
 
+// Catch all handler: send back React's index.html file for any non-API routes
+app.get('*', (req, res) => {
+  res.sendFile(path.join(distPath, 'index.html'));
+});
+
 app.listen(PORT, () => {
   console.log(`🚀 TechForge Server running on port ${PORT}`);
   console.log(`📧 Email configured for: techforge81@gmail.com`);
   console.log(`📁 Data directory: ${dataDir}`);
+  console.log(`🌐 Serving frontend from: ${distPath}`);
   
   if (process.env.EMAIL_USER && process.env.EMAIL_PASS) {
     console.log(`✅ Email configured with: ${process.env.EMAIL_USER}`);
@@ -510,4 +525,5 @@ app.listen(PORT, () => {
   console.log(`   - GET /api/projects/:category - Get projects by category`);
   console.log(`   - GET /api/inquiries - View all inquiries`);
   console.log(`   - GET /api/health - Health check`);
+  console.log(`   - GET /* - Serve React frontend`);
 });
