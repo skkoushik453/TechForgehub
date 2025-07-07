@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Brain, Globe, Layers, Smartphone, Database, Shield, X, ExternalLink, Code, DollarSign, Clock, Sparkles } from 'lucide-react';
+import { Brain, Globe, Layers, Smartphone, Database, Shield, X, ExternalLink, Code, IndianRupee, Clock, Sparkles } from 'lucide-react';
 
 interface Project {
   id: number;
@@ -361,7 +361,7 @@ const Projects = () => {
                         
                         <div className="flex items-center justify-between">
                           <div className="flex items-center space-x-2">
-                            <DollarSign className="h-4 w-4 text-green-600" />
+                            <IndianRupee className="h-4 w-4 text-green-600" />
                             <span className="text-lg font-bold text-green-600">{project.price}</span>
                           </div>
                           <motion.button
