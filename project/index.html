@@ -7,13 +7,20 @@
     <title>TechForge - Premium Student Projects</title>
     <meta name="description" content="Get high-quality, production-ready projects for AI/ML, Web Development, Full-Stack, Mobile Apps, and more. Perfect for students looking to excel in their coursework." />
 
-    <!-- Google Analytics tracking code -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-RE8FYB41FC"></script>
+    <!-- ✅ Google Analytics (fixed load) -->
     <script>
       window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', 'G-RE8FYB41FC');
+      function gtag() { dataLayer.push(arguments); }
+      (function() {
+        const script = document.createElement('script');
+        script.src = 'https://www.googletagmanager.com/gtag/js?id=G-RE8FYB41FC';
+        script.async = true;
+        script.onload = () => {
+          gtag('js', new Date());
+          gtag('config', 'G-RE8FYB41FC');
+        };
+        document.head.appendChild(script);
+      })();
     </script>
   </head>
   <body>
